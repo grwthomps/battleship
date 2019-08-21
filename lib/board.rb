@@ -1,6 +1,6 @@
 class Board
 
-  attr_reader :actual_board, :cells
+  attr_reader :cells
 
   def initialize
     @cells = {}
@@ -12,6 +12,21 @@ class Board
 
     cell_array.map do |cell|
       @cells[cell] = Cell.new(cell)
+    end
+  end
+
+  def valid_coordinate?(coordinate)
+    @cells.include?(coordinate)
+  end
+
+  def valid_placement?(ship, coordinates)
+    if ship.length == coordinates.count
+      coord_nums = coordinates.map do |coordinate|
+        coordinate[1].to_i
+      end
+      coord_nums.each_cons(2).all? { |x,y| y == x + 1 } && coord_nums[0] < coord_nums[1]
+    else
+      false
     end
   end
 
