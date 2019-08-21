@@ -5,37 +5,47 @@ require './lib/cell'
 
 class CellTest < Minitest::Test
 
+  def setup
+    @cell = Cell.new("B4")
+    @cruiser = Ship.new("Cruiser", 3)
+  end
+
   def test_it_exists
-    cell = Cell.new("B4")
-    assert_instance_of Cell, cell
+    assert_instance_of Cell, @cell
   end
 
   def test_its_coordinate
-    cell = Cell.new("B4")
-    assert_equal "B4", cell.coordinate
+    assert_equal "B4", @cell.coordinate
   end
 
   def test_there_isnt_a_ship_on_it
-    cell = Cell.new("B4")
-    assert_nil cell.ship
+    assert_nil @cell.ship
   end
 
   def test_that_its_empty
-    cell = Cell.new("B4")
-    assert_equal true, cell.empty?
+    assert_equal true, @cell.empty?
   end
 
   def test_an_instance_of_ship
-    cruiser = Ship.new("Cruiser", 3)
-    assert_instance_of Ship, cruiser
+    assert_instance_of Ship, @cruiser
   end
 
   def test_placing_a_ship_on_it
-    cell = Cell.new("B4")
-    cruiser = Ship.new("Cruiser", 3)
-    cell.place_ship(cruiser)
-    assert_equal cruiser, cell.ship
-    assert_equal false, cell.empty?
+    @cell.place_ship(@cruiser)
+    assert_equal @cruiser, @cell.ship
+    assert_equal false, @cell.empty?
+  end
+
+  def test_it_hasnt_been_fired_upon
+    @cell.place_ship(@cruiser)
+    assert_equal false, @cell.fired_upon?
+  end
+
+  def test_firing_on_it
+    @cell.place_ship(@cruiser)
+    @cell.fire_upon
+    assert_equal 2, @cell.ship.health
+    assert_equal true, @cell.fired_upon?
   end
 
 end
