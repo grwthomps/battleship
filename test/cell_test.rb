@@ -9,6 +9,7 @@ class CellTest < Minitest::Test
     @cell = Cell.new("B4")
     @cruiser = Ship.new("Cruiser", 3)
 
+
   end
 
   def test_it_exists
@@ -24,62 +25,55 @@ class CellTest < Minitest::Test
   end
 
   def test_that_its_empty
-    assert_equal true, @cell.empty?
-  end
-
-  def test_an_instance_of_ship
-    assert_instance_of Ship, @cruiser
+    assert @cell.empty?
   end
 
   def test_placing_a_ship_on_it
     @cell.place_ship(@cruiser)
     assert_equal @cruiser, @cell.ship
-    assert_equal false, @cell.empty?
+    refute @cell.empty?
   end
 
   def test_it_hasnt_been_fired_upon
     @cell.place_ship(@cruiser)
-    assert_equal false, @cell.fired_upon?
+    refute @cell.fired_upon?
   end
 
   def test_firing_on_it
     @cell.place_ship(@cruiser)
+    assert_equal 3, @cell.ship.health
     @cell.fire_upon
     assert_equal 2, @cell.ship.health
-    assert_equal true, @cell.fired_upon?
+    assert @cell.fired_upon?
   end
 
   def test_render_when_it_hasnt_been_fired_upon
-    cell_1 = Cell.new("B4")
-    assert_equal ".", cell_1.render
+    assert_equal ".", @cell.render
   end
 
   def test_render_when_shot_missed
-    cell_1 = Cell.new("B4")
-    cell_1.fire_upon
-    assert_equal "M", cell_1.render
+    @cell.fire_upon
+    assert_equal "M", @cell.render
   end
 
   def test_render_when_it_has_a_ship
-    cell_2 = Cell.new("C3")
-    cell_2.place_ship(@cruiser)
-    assert_equal ".", cell_2.render
-    assert_equal "S", cell_2.render(true)
+    @cell.place_ship(@cruiser)
+    assert_equal ".", @cell.render
+    assert_equal "S", @cell.render(true)
   end
 
   def test_render_when_shot_hit
-    cell_2 = Cell.new("C3")
-    cell_2.place_ship(@cruiser)
-    cell_2.fire_upon
-    assert_equal "H", cell_2.render
-    assert_equal false, @cruiser.sunk?
+    @cell.place_ship(@cruiser)
+    @cell.fire_upon
+    assert_equal "H", @cell.render
+    refute @cruiser.sunk?
   end
 
   def test_render_when_ship_sunk
-    cell_2 = Cell.new("C3")
-    cell_2.place_ship(@cruiser)
-    3.times {@cruiser.hit}
-    assert_equal true, @cruiser.sunk?
-    assert_equal "X", cell_2.render
+    dinghy = Ship.new("Cruiser", 1)
+    @cell.place_ship(dinghy)
+    @cell.fire_upon
+    assert dinghy.sunk? 
+    assert_equal "X", @cell.render
   end
 end

@@ -20,18 +20,18 @@ class ShipTest < Minitest::Test
   end
 
   def test_it_gets_hit
-    assert_equal false, @cruiser.sunk?
+    refute @cruiser.sunk?
     @cruiser.hit
     assert_equal 2, @cruiser.health
 
     @cruiser.hit
     assert_equal 1, @cruiser.health
-    assert_equal false, @cruiser.sunk?
+    refute @cruiser.sunk?
   end
 
   def test_for_sunk
-    assert_equal false, @cruiser.sunk?
-    3.times {@cruiser.hit}
-    assert_equal true, @cruiser.sunk?
+    refute @cruiser.sunk?
+    10.times {@cruiser.hit}
+    assert @cruiser.sunk?
   end
 end
