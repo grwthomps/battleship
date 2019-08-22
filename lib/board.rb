@@ -16,14 +16,32 @@ class Board
     @cells.include?(coordinate)
   end
 
-  def valid_placement?(ship, coordinates)
-    if ship.length == coordinates.count
-      coord_nums = coordinates.map do |coordinate|
-        coordinate[1].to_i
-      end
-      coord_nums.each_cons(2).all? { |x,y| y == x + 1 } && coord_nums[0] < coord_nums[1]
+  def array_sequential?(array_1, array_2)
+    letters_are_same = array_1.uniq.count == 1
+    nums_are_same = array_2.uniq.count == 1
+    letters = array_1.each_cons(2).all? { |x,y| y == x + 1 } && array_1[0] < array_1[1]
+    nums = array_2.each_cons(2).all? { |x,y| y == x + 1 } && array_2[0] < array_2[1]
+    if letters == false && nums == true && letters_are_same == true
+      return true
+    elsif letters == true && nums == false && nums_are_same == true
+      return true
     else
-      false
+      return false
+    end
+  end
+
+  def valid_placement?(ship, coordinates)
+    letters = []
+    nums = []
+    coord_nums = coordinates.each do |coordinate|
+        nums << coordinate.gsub(/[A-Z]/, "").to_i
+        letters << coordinate.gsub(/\d/, "").ord
+    end
+    checked_array = array_sequential?(letters, nums)
+    if ship.length == coordinates.count && checked_array == true
+      return true
+    else
+      return false
     end
 
   end
