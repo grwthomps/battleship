@@ -59,7 +59,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_placing_a_ship_on_it
-    @board.place(@cruiser, ["A1", "A2", "A3"])
+    assert @board.place(@cruiser, ["A1", "A2", "A3"])
     cell_1 = @board.cells["A1"]
     cell_2 = @board.cells["A2"]
     cell_3 = @board.cells["A3"]
@@ -69,5 +69,13 @@ class BoardTest < Minitest::Test
     assert_equal cell_3.ship, cell_2.ship
   end
 
+  def test_placing_two_ships_on_same_cells
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    # require 'pry'; binding.pry
+    refute @board.valid_placement?(@submarine, ["A1", "B1"])
+  end
 
+  def test_all_empty
+    assert @board.all_empty?(["A1", "A2", "A3"])
+  end
 end
