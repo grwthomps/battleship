@@ -4,7 +4,7 @@ VALID_CELLS = ["A1", "A2", "A3", "A4",
   "D1", "D2", "D3", "D4"].freeze
 
 class Board
-  attr_reader :cells
+  attr_reader :cells, :letters, :rendered_board
 
   def initialize
     @cells = create_cells
@@ -62,4 +62,71 @@ class Board
     return false unless valid_placement?(ship, coordinates)
     coordinates.each { |coordinate| @cells[coordinate].place_ship(ship) }
   end
+
+  def render(boolean = false)
+    line_1 = "  1 2 3 4 \n"
+    line_2 = "A "
+    line_3 = "B "
+    line_4 = "C "
+    line_5 = "D "
+
+    if boolean == false
+
+      line_2 << @cells["A1"].render + " "
+      line_2 << @cells["A2"].render + " "
+      line_2 << @cells["A3"].render + " "
+      line_2 << @cells["A4"].render + " "
+
+      line_3 << @cells["B1"].render + " "
+      line_3 << @cells["B2"].render + " "
+      line_3 << @cells["B3"].render + " "
+      line_3 << @cells["B4"].render + " "
+
+      line_4 << @cells["C1"].render + " "
+      line_4 << @cells["C2"].render + " "
+      line_4 << @cells["C3"].render + " "
+      line_4 << @cells["C4"].render + " "
+
+      line_5 << @cells["D1"].render + " "
+      line_5 << @cells["D2"].render + " "
+      line_5 << @cells["D3"].render + " "
+      line_5 << @cells["D4"].render + " "
+
+    else
+      line_1 = "  1 2 3 4 \n"
+      line_2 = "A "
+      line_3 = "B "
+      line_4 = "C "
+      line_5 = "D "
+
+      line_2 << @cells["A1"].render(true) + " "
+      line_2 << @cells["A2"].render(true) + " "
+      line_2 << @cells["A3"].render(true) + " "
+      line_2 << @cells["A4"].render(true) + " "
+
+      line_3 << @cells["B1"].render(true) + " "
+      line_3 << @cells["B2"].render(true) + " "
+      line_3 << @cells["B3"].render(true) + " "
+      line_3 << @cells["B4"].render(true) + " "
+
+      line_4 << @cells["C1"].render(true) + " "
+      line_4 << @cells["C2"].render(true) + " "
+      line_4 << @cells["C3"].render(true) + " "
+      line_4 << @cells["C4"].render(true) + " "
+
+      line_5 << @cells["D1"].render(true) + " "
+      line_5 << @cells["D2"].render(true) + " "
+      line_5 << @cells["D3"].render(true) + " "
+      line_5 << @cells["D4"].render(true) + " "
+    end
+
+    line_2 += "\n"
+    line_3 += "\n"
+    line_4 += "\n"
+    line_5 += "\n"
+
+    line_1 + line_2 + line_3 + line_4 + line_5
+
+  end
+
 end
