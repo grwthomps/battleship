@@ -6,7 +6,8 @@ class Game
               :computer_submarine,
               :user_coordinates,
               :user_cruiser,
-              :user_submarine
+              :user_submarine,
+              :user_shot
 
   def initialize
     @computer_board = Board.new
@@ -16,6 +17,7 @@ class Game
     @user_coordinates = nil
     @user_cruiser = Ship.new("Cruiser", 3)
     @user_submarine = Ship.new("Submarine", 2)
+    @user_shot = nil
   end
 
   def computer_place_cruiser
@@ -34,7 +36,7 @@ class Game
     @computer_board.place(@computer_submarine, choices)
   end
 
-  def round
+  def placing_ships
     computer_place_cruiser
     computer_place_submarine
     puts "I have laid out my ships on the grid."
@@ -70,10 +72,35 @@ class Game
       end
     end
     @user_board.place(@user_submarine, @user_coordinates)
-    puts @user_board.render(true)
-    p "Keeps going..."
   end
 
+  def turn
+    puts "=============COMPUTER BOARD============="
+    puts @computer_board.render
+    puts "==============PLAYER BOARD=============="
+    puts @user_board.render(true)
+    require 'pry'; binding.pry
+    loop do
+      puts "Enter the coordinate for your shot:"
+      print "> "
+      @user_shot = gets.chomp.upcase
 
+      if @computer_board.valid_coordinate?(@user_shot)
+        break
+      else
+        puts "Invalid coordinate."
+      end
+    end
+    @computer_board.cells[@user_shot].fire_upon
+    if @computer_board.cells[@user_shot].render == "M"
+      puts "Your shot on #{@user_shot} was a miss."
+    elsif @computer_board.cells[@user_shot].render == "H"
+      puts "Your shot on #{@user_shot} was a hit!"
+    end
+    #check sunk
+    #if sunk, puts that ship is sunk
+
+    p "Keeps going..."
+  end
 
 end
