@@ -69,19 +69,12 @@ class Board
   end
 
   def render(boolean = false)
-    if boolean == false
-      line_1 = "  1 2 3 4 \n"
-      line_2 = "A #{@cells["A1"].render} #{@cells["A2"].render} #{@cells["A3"].render} #{@cells["A4"].render} \n"
-      line_3 = "B #{@cells["B1"].render} #{@cells["B2"].render} #{@cells["B3"].render} #{@cells["B4"].render} \n"
-      line_4 = "C #{@cells["C1"].render} #{@cells["C2"].render} #{@cells["C3"].render} #{@cells["C4"].render} \n"
-      line_5 = "D #{@cells["D1"].render} #{@cells["D2"].render} #{@cells["D3"].render} #{@cells["D4"].render} \n"
-    else
-      line_1 = "  1 2 3 4 \n"
-      line_2 = "A #{@cells["A1"].render(true)} #{@cells["A2"].render(true)} #{@cells["A3"].render(true)} #{@cells["A4"].render(true)} \n"
-      line_3 = "B #{@cells["B1"].render(true)} #{@cells["B2"].render(true)} #{@cells["B3"].render(true)} #{@cells["B4"].render(true)} \n"
-      line_4 = "C #{@cells["C1"].render(true)} #{@cells["C2"].render(true)} #{@cells["C3"].render(true)} #{@cells["C4"].render(true)} \n"
-      line_5 = "D #{@cells["D1"].render(true)} #{@cells["D2"].render(true)} #{@cells["D3"].render(true)} #{@cells["D4"].render(true)} \n"
-    end
+    line_1 = "  1 2 3 4 \n"
+    line_2 = "A #{@cells["A1"].render(boolean)} #{@cells["A2"].render(boolean)} #{@cells["A3"].render(boolean)} #{@cells["A4"].render(boolean)} \n"
+    line_3 = "B #{@cells["B1"].render(boolean)} #{@cells["B2"].render(boolean)} #{@cells["B3"].render(boolean)} #{@cells["B4"].render(boolean)} \n"
+    line_4 = "C #{@cells["C1"].render(boolean)} #{@cells["C2"].render(boolean)} #{@cells["C3"].render(boolean)} #{@cells["C4"].render(boolean)} \n"
+    line_5 = "D #{@cells["D1"].render(boolean)} #{@cells["D2"].render(boolean)} #{@cells["D3"].render(boolean)} #{@cells["D4"].render(boolean)} \n"
+
     line_1 + line_2 + line_3 + line_4 + line_5
   end
 
