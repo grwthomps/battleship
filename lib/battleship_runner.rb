@@ -11,7 +11,8 @@ user_input = gets.chomp.downcase
 
 if user_input == "p"
   game = Game.new
-  game.round
+  game.placing_ships
+  game.turn
 elsif user_input == "q"
   # close program
 else
