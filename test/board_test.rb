@@ -55,6 +55,7 @@ class BoardTest < Minitest::Test
 
   def test_valid_placements
     assert @board.valid_placement?(@submarine, ["A1", "A2"])
+    refute @board.valid_placement?(@submarine, ["A21", "A22"])
     assert @board.valid_placement?(@cruiser, ["B1", "C1", "D1"])
   end
 
@@ -71,7 +72,6 @@ class BoardTest < Minitest::Test
 
   def test_placing_two_ships_on_same_cells
     @board.place(@cruiser, ["A1", "A2", "A3"])
-    # require 'pry'; binding.pry
     refute @board.valid_placement?(@submarine, ["A1", "B1"])
   end
 

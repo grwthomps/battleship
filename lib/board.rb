@@ -53,6 +53,11 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
+    coord_check = coordinates.map do |coordinate|
+      valid_coordinate?(coordinate)
+    end
+
+    return false if coord_check.include?(false)
     return false unless all_empty?(coordinates)
     return false if ship.length != coordinates.count
     array_sequential?(coordinates)
