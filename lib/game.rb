@@ -11,7 +11,7 @@ class Game
   end
 
   def computer_place_cruiser
-    choices = ["A20", "A21", "A22"]
+    choices = []
     until @computer_board.valid_placement?(@cruiser, choices)
       choices = @computer_board.cells.keys.sample(3)
     end
@@ -19,7 +19,7 @@ class Game
   end
 
   def computer_place_submarine
-    choices = ["A20", "A21"]
+    choices = []
     until @computer_board.valid_placement?(@submarine, choices)
       choices = @computer_board.cells.keys.sample(2)
     end
