@@ -125,7 +125,20 @@ class Game
     elsif computer_result == "X"
       puts "The computer's shot on #{@computer_shot} was a hit and it sunk your #{@user_board.cells[@computer_shot].ship.name}!"
     end
+  end
 
+  def end_game
+    puts "=============COMPUTER BOARD============="
+    puts @computer_board.render
+    puts "==============PLAYER BOARD=============="
+    puts @user_board.render(true)
+
+    if @user_board.render.count("X") == 5
+      puts "Sorry, you lost..."
+    elsif @computer_board.render.count("X") == 5
+      puts "Congratulations! You won!!!"
+    end
+    puts "Want to play again?"
   end
 
 end
