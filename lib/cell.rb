@@ -27,9 +27,30 @@ class Cell
     @fired_upon = true
   end
 
-  def render(boolean = false)
-    if boolean == false
-      if empty? == false && @ship.health == 0
+  def render(show_ships = false)
+    # is it sunk
+    # is it hit
+    # is it fired_upon but miss
+    # else "S" or "."
+
+    # return "M" if @fired_upon == true && empty?
+    # return "X" if @ship.sunk?
+    #   if empty? == false
+    # return "H" if @fired_upon == true
+    # if show_ships == true
+    #   if !empty? && !fired_upon?
+    #     "S"
+    #   else
+    #     "."
+    #   end
+    # else
+    #   "."
+    #
+    # end
+
+
+    if show_ships == false
+      if empty? == false && @ship.sunk?
         "X"
       elsif fired_upon?
         if empty? == true
@@ -41,12 +62,19 @@ class Cell
         "."
       end
     else
-      if empty? == false
+      if empty? == false && !fired_upon?
         "S"
+      elsif fired_upon?
+        if empty? == true
+          "M"
+        elsif !@ship.sunk?
+          "H"
+        else
+          "X"
+        end
       else
         "."
       end
     end
   end
-
 end
