@@ -41,6 +41,7 @@ class Game
   def placing_ships
     computer_place_cruiser
     computer_place_submarine
+    puts "====================================="
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships: one Cruiser and one Submarine."
     puts "The Cruiser is three units long and the Submarine is two units long."
@@ -67,7 +68,8 @@ class Game
       user_input = gets.chomp.upcase
       @user_coordinates = user_input.split(" ")
 
-      if @user_board.valid_placement?(@user_submarine, @user_coordinates)   # can be broken. check with valid_placement instead.
+
+      if @user_board.valid_placement?(@user_submarine, @user_coordinates)
         break
       else
         puts "Invalid coordinates. Please try again."
@@ -77,12 +79,10 @@ class Game
   end
 
   def turn
-    puts "=============COMPUTER BOARD============="
+    puts "============COMPUTER BOARD============"
     puts @computer_board.render
-    puts "==============PLAYER BOARD=============="
+    puts "=============PLAYER BOARD============="
     puts @user_board.render(true)
-
-    # require 'pry'; binding.pry
 
     loop do
       puts "Enter the coordinate for your shot:"
@@ -92,8 +92,10 @@ class Game
       if @computer_board.valid_coordinate?(@user_shot) && @computer_board.cells[@user_shot].render == "."
         break
       elsif @computer_board.cells[@user_shot].render != "."
+        puts ""
         puts "You already chose that coordinate previously."
       else
+        puts ""
         puts "Invalid coordinate."
       end
     end
@@ -102,11 +104,14 @@ class Game
     user_result = @computer_board.cells[@user_shot].render
 
     if user_result == "M"
+      puts ""
       puts "Your shot on #{@user_shot} was a miss."
     elsif user_result == "H"
+      puts ""
       puts "Your shot on #{@user_shot} was a hit!"
     elsif user_result == "X"
-      puts "Your shot on #{@user_shot} was a hit and you sunk their #{@computer_board.cells[@user_shot].ship.name}!"
+      puts ""
+      puts "Your shot on #{@user_shot} was a hit and you sunk my #{@computer_board.cells[@user_shot].ship.name}!"
     end
 
     loop do
@@ -119,11 +124,14 @@ class Game
     @user_board.cells[@computer_shot].fire_upon
     computer_result = @user_board.cells[@computer_shot].render
     if computer_result == "M"
-      puts "The computer's shot on #{@computer_shot} was a miss."
+      puts "My shot on #{@computer_shot} was a miss."
+      puts ""
     elsif computer_result == "H"
-      puts "The computer's shot on #{@computer_shot} was a hit!"
+      puts "My shot on #{@computer_shot} was a hit!"
+      puts ""
     elsif computer_result == "X"
-      puts "The computer's shot on #{@computer_shot} was a hit and it sunk your #{@user_board.cells[@computer_shot].ship.name}!"
+      puts "My shot on #{@computer_shot} was a hit and it sunk your #{@user_board.cells[@computer_shot].ship.name}!"
+      puts ""
     end
   end
 
@@ -139,6 +147,7 @@ class Game
       puts "Congratulations! You won!!!"
     end
     puts "Want to play again?"
+    puts ""
   end
 
 end
