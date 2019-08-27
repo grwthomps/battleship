@@ -48,11 +48,13 @@ class CellTest < Minitest::Test
   end
 
   def test_render_when_it_hasnt_been_fired_upon
+    assert_equal ".", @cell.render(true)
     assert_equal ".", @cell.render
   end
 
   def test_render_when_shot_missed
     @cell.fire_upon
+    assert_equal "M", @cell.render(true)
     assert_equal "M", @cell.render
   end
 
@@ -65,6 +67,7 @@ class CellTest < Minitest::Test
   def test_render_when_shot_hit
     @cell.place_ship(@cruiser)
     @cell.fire_upon
+    assert_equal "H", @cell.render(true)
     assert_equal "H", @cell.render
     refute @cruiser.sunk?
   end
@@ -73,7 +76,8 @@ class CellTest < Minitest::Test
     dinghy = Ship.new("Cruiser", 1)
     @cell.place_ship(dinghy)
     @cell.fire_upon
-    assert dinghy.sunk? 
+    assert dinghy.sunk?
+    assert_equal "X", @cell.render(true)
     assert_equal "X", @cell.render
   end
 end

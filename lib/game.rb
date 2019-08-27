@@ -7,7 +7,8 @@ class Game
               :user_coordinates,
               :user_cruiser,
               :user_submarine,
-              :user_shot
+              :user_shot,
+              :computer_shot
 
   def initialize
     @computer_board = Board.new
@@ -18,6 +19,7 @@ class Game
     @user_cruiser = Ship.new("Cruiser", 3)
     @user_submarine = Ship.new("Submarine", 2)
     @user_shot = nil
+    @computer_shot = nil
   end
 
   def computer_place_cruiser
@@ -79,28 +81,51 @@ class Game
     puts @computer_board.render
     puts "==============PLAYER BOARD=============="
     puts @user_board.render(true)
-    require 'pry'; binding.pry
+
+    # require 'pry'; binding.pry
+
     loop do
       puts "Enter the coordinate for your shot:"
       print "> "
       @user_shot = gets.chomp.upcase
 
-      if @computer_board.valid_coordinate?(@user_shot)
+      if @computer_board.valid_coordinate?(@user_shot) && @computer_board.cells[@user_shot].render == "."
         break
+      elsif @computer_board.cells[@user_shot].render != "."
+        puts "You already chose that coordinate previously."
       else
         puts "Invalid coordinate."
       end
     end
-    @computer_board.cells[@user_shot].fire_upon
-    if @computer_board.cells[@user_shot].render == "M"
-      puts "Your shot on #{@user_shot} was a miss."
-    elsif @computer_board.cells[@user_shot].render == "H"
-      puts "Your shot on #{@user_shot} was a hit!"
-    end
-    #check sunk
-    #if sunk, puts that ship is sunk
 
-    p "Keeps going..."
+    @computer_board.cells[@user_shot].fire_upon
+    user_result = @computer_board.cells[@user_shot].render
+
+    if user_result == "M"
+      puts "Your shot on #{@user_shot} was a miss."
+    elsif user_result == "H"
+      puts "Your shot on #{@user_shot} was a hit!"
+    elsif user_result == "X"
+      puts "Your shot on #{@user_shot} was a hit and you sunk their #{@computer_board.cells[@user_shot].ship.name}!"
+    end
+
+    loop do
+      @computer_shot = @user_board.cells.keys.sample(1).first
+      if @user_board.cells[@computer_shot].render == "."
+        break
+      end
+    end
+
+    @user_board.cells[@computer_shot].fire_upon
+    computer_result = @user_board.cells[@computer_shot].render
+    if computer_result == "M"
+      puts "The computer's shot on #{@computer_shot} was a miss."
+    elsif computer_result == "H"
+      puts "The computer's shot on #{@computer_shot} was a hit!"
+    elsif computer_result == "X"
+      puts "The computer's shot on #{@computer_shot} was a hit and it sunk your #{@user_board.cells[@computer_shot].ship.name}!"
+    end
+
   end
 
 end
