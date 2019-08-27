@@ -74,8 +74,8 @@ class Board
     line_3 = "B #{@cells["B1"].render(boolean)} #{@cells["B2"].render(boolean)} #{@cells["B3"].render(boolean)} #{@cells["B4"].render(boolean)} \n"
     line_4 = "C #{@cells["C1"].render(boolean)} #{@cells["C2"].render(boolean)} #{@cells["C3"].render(boolean)} #{@cells["C4"].render(boolean)} \n"
     line_5 = "D #{@cells["D1"].render(boolean)} #{@cells["D2"].render(boolean)} #{@cells["D3"].render(boolean)} #{@cells["D4"].render(boolean)} \n"
+    "\n" + line_1 + line_2 + line_3 + line_4 + line_5 + "\n"
 
-    line_1 + line_2 + line_3 + line_4 + line_5
   end
 
 end
