@@ -22,38 +22,31 @@ class Game
     @computer_shot = nil
   end
 
-  def computer_place_cruiser
+  def computer_place_ship(ship)
     choices = []
-    until @computer_board.valid_placement?(@computer_cruiser, choices)
-      choices = @computer_board.cells.keys.sample(3)
+    until @computer_board.valid_placement?(ship, choices)
+      choices = @computer_board.cells.keys.sample(ship.length)
     end
-    @computer_board.place(@computer_cruiser, choices)
-  end
-
-  def computer_place_submarine
-    choices = []
-    until @computer_board.valid_placement?(@computer_submarine, choices)
-      choices = @computer_board.cells.keys.sample(2)
-    end
-    @computer_board.place(@computer_submarine, choices)
+    @computer_board.place(ship, choices)
   end
 
   def placing_ships
-    computer_place_cruiser
-    computer_place_submarine
+    computer_place_ship(@computer_cruiser)
+    computer_place_ship(@computer_submarine)
     puts "====================================="
     puts "I have laid out my ships on the grid."
-    puts "You now need to lay out your two ships: one Cruiser and one Submarine."
-    puts "The Cruiser is three units long and the Submarine is two units long."
+    puts "You now need to lay out your 2 ships: 1 Cruiser and 1 Submarine."
+    puts "The Cruiser is 3 units long and the Submarine is 2 units long."
     puts @user_board.render(true)
     loop do
-      puts "First, enter three coordinates for your Cruiser. These must be consecutive. They cannot be diagonal."
+      puts "First, enter 3 coordinates for your Cruiser."
+      puts "Note: These must be consecutive and cannot be diagonal. (Ex: a1 a2 a3)"
       print "> "
 
       user_input = gets.chomp.upcase
       @user_coordinates = user_input.split(" ")
 
-      if @user_board.valid_placement?(@user_cruiser, @user_coordinates)   # can be broken. check with valid_placement instead.
+      if @user_board.valid_placement?(@user_cruiser, @user_coordinates)
         break
       else
         puts "Invalid coordinates. Please try again."
@@ -62,7 +55,8 @@ class Game
     @user_board.place(@user_cruiser, @user_coordinates)
     puts @user_board.render(true)
     loop do
-      puts "Next, enter two coordinates for your Submarine. These must also be consecutive and cannot be diagonal."
+      puts "Next, enter 2 coordinates for your Submarine."
+      puts "These must also be consecutive and cannot be diagonal. (Ex: b1 b2)"
       print "> "
 
       user_input = gets.chomp.upcase
@@ -91,17 +85,22 @@ class Game
 
       if @computer_board.valid_coordinate?(@user_shot) && @computer_board.cells[@user_shot].render == "."
         break
+      elsif @user_shot == ""
+        puts ""
+        puts "No coordinate entered."
+      elsif !@computer_board.valid_coordinate?(@user_shot)
+        puts ""
+        puts "Invalid coordinate."
       elsif @computer_board.cells[@user_shot].render != "."
         puts ""
         puts "You already chose that coordinate previously."
-      else
-        puts ""
-        puts "Invalid coordinate."
       end
     end
 
     @computer_board.cells[@user_shot].fire_upon
     user_result = @computer_board.cells[@user_shot].render
+    puts ""
+    puts "================RESULT================"
 
     if user_result == "M"
       puts ""
@@ -140,11 +139,15 @@ class Game
     puts @computer_board.render
     puts "==============PLAYER BOARD=============="
     puts @user_board.render(true)
+    puts "==============END OF GAME==============="
+    puts ""
 
-    if @user_board.render.count("X") == 5
-      puts "Sorry, you lost..."
+    if @user_board.render.count("X") == 5 && @computer_board.render.count("X") == 5
+      puts "It's a tie!"
     elsif @computer_board.render.count("X") == 5
       puts "Congratulations! You won!!!"
+    elsif @user_board.render.count("X") == 5
+      puts "Sorry, you lost..."
     end
     puts "Want to play again?"
     puts ""
