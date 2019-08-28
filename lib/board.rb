@@ -8,13 +8,9 @@ class Board
 
   def initialize
     @cells = create_cells
-
-    # @letters = create_letters(size)
-    # @numbers = create_numbers(size)
-    # @cells = create_cells
   end
 
-  def create_cells#(size)
+  def create_cells
     cells = {}
     VALID_CELLS.each do |cell|
       cells[cell] = Cell.new(cell)
